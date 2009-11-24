@@ -28,4 +28,6 @@ Simply clone the repository to your system
 
 	git clone git://github.com/mwlang/ramaze-protos.git
 	
-Then cp -r ramaze-protos/erubis_sequel_bacon_railsy new_project
+Then:
+
+	cp -r ramaze-protos/erubis_sequel_bacon_railsy new_project
