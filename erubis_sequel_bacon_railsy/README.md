@@ -9,7 +9,7 @@ Provides an environment that is somewhat familiar for Rails developers.  Some
 key highlights for how this template is similar to a Rails project:
 
 * The MVC files are contained within the app subdirectory
-* Erubis is used ERB templating 
+* Erubis is used for ERB templating 
 * Rake tasks are in the same vein as the ActiveRecord tasks for schema management.
 * schema and migration files are in db subfolder
 * database.yml is in the root folder
@@ -21,3 +21,11 @@ This proto differs from Rails in that:
 * Bacon for the test framework
 * Modes are :dev, :spec, and :live
 * MODE as environment variable vs. RAILS_ENV
+
+# How to Use
+
+Simply clone the repository to your system
+
+	git clone git://github.com/mwlang/ramaze-protos.git
+	
+Then cp -r ramaze-protos/erubis_sequel_bacon_railsy new_project
