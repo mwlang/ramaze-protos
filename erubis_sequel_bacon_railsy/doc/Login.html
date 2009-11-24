@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=UTF-8" />
+<title>Class: Login</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (L)</a> &raquo; 
+    
+    
+    <span class="title">Login</span>
+  
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Namespace List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Login 
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><a href="Controller.html" title="Controller">Controller</a></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Ramaze::Controller</li>
+          
+            <li class="next"><a href="Controller.html" title="Controller">Controller</a></li>
+          
+            <li class="next">Login</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/controllers/login.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+  
+  
+  
+  
+
+  <h2>Method Summary</h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#continue-instance_method" title="#continue (instance method)">- (Object) <strong>continue</strong> </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature"><a href="#index-instance_method" title="#index (instance method)">- (Object) <strong>index</strong> </a>
+  
+  </span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <a href="Controller.html" title="Controller">Controller</a></h3>
+  <p class="inherited"><a href="Controller.html#set_default_title-instance_method" title="#set_default_title">#set_default_title</a></p>
+
+  
+
+  <div id="method_details">
+    <h2>Method Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="continue-instance_method">
+  
+    - (<tt>Object</tt>) <strong>continue</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/login.rb', line 173</span>
+
+<span class='def def kw'>def</span> <span class='continue identifier id'>continue</span>
+  <span class='flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:notice</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='translate identifier id'>translate</span><span class='lparen token'>(</span><span class='symbol val'>:continue_message</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;%url%&quot;</span><span class='comma token'>,</span> <span class='request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="index-instance_method">
+  
+    - (<tt>Object</tt>) <strong>index</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/login.rb', line 162</span>
+
+<span class='def def kw'>def</span> <span class='index identifier id'>index</span>
+  <span class='get_params identifier id'>get_params</span>
+  <span class='if if kw'>if</span> <span class='logged_in? fid id'>logged_in?</span>
+    <span class='@title ivar id'>@title</span> <span class='assign token'>=</span> <span class='translate identifier id'>translate</span> <span class='symbol val'>:cas_server</span>
+    <span class='handle_logged_in_session identifier id'>handle_logged_in_session</span>
+  <span class='else else kw'>else</span>
+    <span class='@title ivar id'>@title</span> <span class='assign token'>=</span> <span class='translate identifier id'>translate</span> <span class='symbol val'>:login_title</span>
+    <span class='handle_login_request_session identifier id'>handle_login_request_session</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Mon Nov 23 12:10:51 2009 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.4.0 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
