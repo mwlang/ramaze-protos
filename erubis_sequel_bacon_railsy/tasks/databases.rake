@@ -2,6 +2,46 @@ namespace :db do
   task :load_config => :environment do
     Sequel.extension :migration
     Sequel.extension :schema_dumper
+    Sequel.extension :pretty_table
+    # require 'sequel/extensions/pretty_table'
+  end
+
+  task :list_tables => [:load_config] do 
+    DB.tables.each_with_index do |table_name, i|
+      puts "#{'%3d' % (i+1)}: #{table_name}"
+    end
+  end
+
+  desc "Displays content of table"
+  task :show, [:table] => [:load_config] do |t, args|
+    args.table ? DB[args.table.to_sym].print : Rake::Task["db:list_tables"].invoke
+  end
+  
+  desc "Displays schema of table"
+  task :desc, [:table] => [:load_config] do |t, args|
+    def o(value, size = 25)
+      "%#{-1*size}s" % value.to_s
+    end
+    unless args[:table]
+      Rake::Task["db:list_tables"].invoke
+    else
+      puts '==[' << args.table << ']' << '=' * (80 - args.table.size - 4)
+      DB.schema(args.table.to_sym).each_with_index do |col, i|
+       name, info = col
+       puts "#{o i+1, -3}: #{o name}:#{o info[:type], 15}:#{o info[:db_type], 15}:#{' not null ' unless info[:allow_null]} #{' pk ' if info[:primary_key]} #{' default: ' << info[:default].to_s if info[:default]}"
+      end
+      puts '-' * 80
+      indexes = DB.indexes(args.table.to_sym)
+      if indexes.size == 0
+        puts "  No indexes defined"
+      else
+        indexes.each_with_index do |idx, i|
+          name, attrs = idx
+          puts '  ' << o(name, 28) << ": unique? " << o(attrs[:unique] ? 'yes' : 'no', 6) << ': ' << attrs[:columns].join(', ')
+        end
+      end
+      puts '=' * 80
+    end
   end
 
   namespace :schema do
@@ -63,6 +103,32 @@ namespace :db do
       puts "migrating down to version #{down_version}"
       Sequel::Migrator.apply(DB, File.join(RAMAZE_ROOT, 'db', 'migrate'), down_version)
       Rake::Task["db:schema:dump"].invoke
+    end
+    
+    desc "Creates a new migrate script" 
+    task :new, [:table, :verb] => :load_config do |t, args|
+      unless args[:table]
+        puts "need to provide a table name:  rake db:migrate:new[new_table]"
+      else
+        table = args.table
+        verb = args.verb || 'create'
+        migrate_path = File.join(RAMAZE_ROOT,'db', 'migrate')
+        last_file = File.basename(Dir.glob(File.join(migrate_path, '*.rb')).sort.last)
+        next_value = last_file.scan(/\d+/).first.to_i + 1
+        filename = '%03d' % next_value << "_" << args.table << '.rb'
+        File.open(File.join(migrate_path, filename), 'w') do |file|
+          file.puts "class #{verb.capitalize}#{table.capitalize} < Sequel::Migration\n"
+          file.puts "\tdef up"
+          file.puts "\t\t#{verb}_table :#{table} do"
+          file.puts "\t\t\tprimary_key\t:id"
+          file.puts "\t\tend"
+          file.puts "\tend\n\n"
+          file.puts "\tdef down\n"
+          file.puts "\t\tdrop_table :#{table}"
+          file.puts "\tend"
+          file.puts "end"
+        end
+      end
     end
   end
 
